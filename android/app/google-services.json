@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1027108464492",
+    "project_id": "burgergo-7789b",
+    "storage_bucket": "burgergo-7789b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027108464492:android:27ae6b5fe83888aaaab549",
+        "android_client_info": {
+          "package_name": "com.example.burgergo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbGB0y5IavL74f7DtdqATgGLAg9yYntmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

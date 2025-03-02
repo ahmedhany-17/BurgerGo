@@ -1,0 +1,33 @@
+name: burgergo
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  firebase_core: ^3.12.1
+  firebase_auth: ^5.5.1
+  cloud_firestore: ^5.6.5
+  curved_nav_bar: ^0.0.2
+  curved_navigation_bar: ^1.0.6
+  image_picker: ^1.1.2
+  random_string: ^2.3.1
+  firebase_storage: ^12.4.4
+  shared_preferences: ^2.5.2
+  shared_preferences_helper: ^0.0.3
+  url_launcher: ^6.3.1
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
