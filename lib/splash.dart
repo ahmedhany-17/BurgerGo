@@ -21,7 +21,7 @@ class _SplashViewState extends State<SplashView> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
-    await Future.delayed(Duration(seconds: 3)); // شاشة الانتظار
+    await Future.delayed(Duration(seconds: 3)); 
 
     if (isLoggedIn) {
       Navigator.pushReplacement(
