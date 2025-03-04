@@ -61,11 +61,11 @@ class _RegisterViewState extends State<RegisterView> {
       MaterialPageRoute(builder: (context) => BottomNav()),
     );
   } on FirebaseAuthException catch (e) {
-    String message = "حدث خطأ، حاول مرة أخرى.";
+    String message = "An error occurred, please check your credentials.";
     if (e.code == 'weak-password') {
-      message = "كلمة المرور ضعيفة جدًا.";
+      message = "password is too weak.";
     } else if (e.code == 'email-already-in-use') {
-      message = "هذا البريد مستخدم بالفعل.";
+      message = "The account already exists for that email.";
     } else if (e.message != null) {
       message = e.message!;
     }

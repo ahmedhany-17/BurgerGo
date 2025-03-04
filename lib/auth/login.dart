@@ -28,7 +28,6 @@ class _LoginViewState extends State<LoginView> {
     _checkLoginStatus();
   }
 
-  // التحقق من إذا كان المستخدم مسجل دخول بالفعل
   void _checkLoginStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
@@ -41,7 +40,6 @@ class _LoginViewState extends State<LoginView> {
     }
   }
 
-  // دالة تسجيل الدخول
   userLogin() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
