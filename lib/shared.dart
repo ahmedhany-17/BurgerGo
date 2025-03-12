@@ -13,10 +13,10 @@ class SharedPreferenceHelper {
     await prefs.setString("USEREMAILKEY", email);
   }
 
-  static Future<void> saveUserProfile(String profileUrl) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("USERPROFILEKEY", profileUrl);
-  }
+  // static Future<void> saveUserProfile(String profileUrl) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString("USERPROFILEKEY", profileUrl);
+  // }
 
   static Future<void> saveUserId(String id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -33,10 +33,10 @@ class SharedPreferenceHelper {
     return prefs.getString("USEREMAILKEY");
   }
 
-  static Future<String?> getUserProfile() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString("USERPROFILEKEY");
-  }
+  // static Future<String?> getUserProfile() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString("USERPROFILEKEY");
+  // }
 
   static Future<String?> getUserId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,13 +50,13 @@ class SharedPreferenceHelper {
     if (userDoc.exists) {
       String name = userDoc.get("name") ?? "No Name";
       String email = userDoc.get("email") ?? "No Email";
-      String profile = userDoc.get("profile") ?? "";
+     // String profile = userDoc.get("profile") ?? "";
 
       await saveUserName(name);
       await saveUserEmail(email);
-      await saveUserProfile(profile);
+      // await saveUserProfile(profile);
 
-      print("User data saved locally: Name=$name, Email=$email, Profile=$profile");
+      print("User data saved locally: Name=$name, Email=$email");
     }
   }
 }
