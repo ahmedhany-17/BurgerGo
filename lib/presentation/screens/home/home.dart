@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Color(0xFFF9F9F9),
       body: SafeArea(
+        top:false,
         child:
             currentUser == null
                 ? Center(child: Text("User not logged in"))
@@ -102,7 +103,6 @@ class _HomeState extends State<Home> {
 
                           const SizedBox(height: 25),
 
-                          // Grid of menu items
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: GridView.count(
