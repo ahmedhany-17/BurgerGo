@@ -1,7 +1,7 @@
-import 'package:burgergo/cart/cart.dart';
-import 'package:burgergo/cart/cart_provider.dart';
-import 'package:burgergo/home/home.dart';
-import 'package:burgergo/splash.dart';
+import 'package:burgergo/presentation/screens/cart/cart.dart';
+import 'package:burgergo/presentation/providers/cart_provider.dart';
+import 'package:burgergo/presentation/screens/home/home.dart';
+import 'package:burgergo/presentation/screens/splash/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
