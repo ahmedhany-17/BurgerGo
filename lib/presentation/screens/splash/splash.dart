@@ -1,7 +1,7 @@
 import 'package:burgergo/presentation/screens/auth/auth.dart';
 import 'package:burgergo/presentation/widgets/bottomnav/bottomnav.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -14,16 +14,15 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    _checkLoginStatus();
+    _navigateToNext();
   }
 
-  _checkLoginStatus() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+  Future<void> _navigateToNext() async {
+    await Future.delayed(Duration(seconds: 3));
 
-    await Future.delayed(Duration(seconds: 3)); 
+User? user = FirebaseAuth.instance.currentUser;
 
-    if (isLoggedIn) {
+    if (user != null) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => BottomNav(initialIndex: 0)),

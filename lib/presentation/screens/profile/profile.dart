@@ -138,9 +138,20 @@ class _ProfileState extends State<Profile> {
                           child: CircleAvatar(
                             radius: 60,
                             backgroundColor: Colors.grey[300],
-                            backgroundImage: selectedImage != null
-                                ? FileImage(selectedImage!)
-                                : AssetImage("assets/images/logo.png") as ImageProvider,
+                            child: selectedImage != null
+                                ? ClipOval(
+                                    child: Image.file(
+                                      selectedImage!,
+                                      width: 120,
+                                      height: 120,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                  : Icon(
+                                      Icons.add_a_photo,
+                                      size: 40,
+                                      color: Colors.grey,
+                                    ),
                           ),
                         ),
                       ),

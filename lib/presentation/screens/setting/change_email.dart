@@ -15,42 +15,81 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
   bool _isPasswordVisible = false;
 
   Future<void> changeEmail() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
+  try {
+    final user = FirebaseAuth.instance.currentUser;
 
-      final cred = EmailAuthProvider.credential(
-        email: user!.email!,
-        password: currentPasswordController.text.trim(),
-      );
+    // تأكيد الهوية بالباسورد الحالي
+    final cred = EmailAuthProvider.credential(
+      email: user!.email!,
+      password: currentPasswordController.text.trim(),
+    );
 
-      await user.reauthenticateWithCredential(cred);
+    await user.reauthenticateWithCredential(cred);
 
-      await user.updateEmail(newEmailController.text.trim());
+    // تحديث الإيميل
+    await user.updateEmail(newEmailController.text.trim());
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Email changed successfully!",
-            style: TextStyle(fontSize: 18.0),
-          ),
-          backgroundColor: Colors.green,
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "Email changed successfully!",
+          style: TextStyle(fontSize: 18.0),
         ),
-      );
+        backgroundColor: Colors.green,
+      ),
+    );
 
-      newEmailController.clear();
-      currentPasswordController.clear();
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            "Failed to change email!",
-            style: TextStyle(fontSize: 18.0),
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
+    newEmailController.clear();
+    currentPasswordController.clear();
+  } on FirebaseAuthException catch (e) {
+    String errorMessage = "Failed to change email.";
+
+    switch (e.code) {
+      case "wrong-password":
+        errorMessage = "كلمة المرور غير صحيحة.";
+        break;
+      case "requires-recent-login":
+        errorMessage = "يجب تسجيل الدخول مرة أخرى لتغيير البريد الإلكتروني.";
+        break;
+      case "email-already-in-use":
+        errorMessage = "البريد الإلكتروني الجديد مستخدم بالفعل.";
+        break;
+      case "invalid-email":
+        errorMessage = "البريد الإلكتروني غير صالح.";
+        break;
+      case "user-mismatch":
+        errorMessage = "حدث تعارض في الحساب.";
+        break;
+      case "user-not-found":
+        errorMessage = "لم يتم العثور على المستخدم.";
+        break;
+      default:
+        errorMessage = "حدث خطأ: ${e.message}";
+        break;
     }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          errorMessage,
+          style: TextStyle(fontSize: 18.0),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } catch (e) {
+    // لو الخطأ مش من Firebase
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          "خطأ غير متوقع: ${e.toString()}",
+          style: TextStyle(fontSize: 18.0),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {

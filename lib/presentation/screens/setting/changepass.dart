@@ -10,30 +10,42 @@ class ChangePasswordView extends StatefulWidget {
 
 class _ChangePasswordViewState extends State<ChangePasswordView> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
+  TextEditingController currentPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
 
-  changePassword() async {
+  bool _isCurrentPasswordVisible = false;
+  bool _isNewPasswordVisible = false;
+
+  Future<void> changePassword() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) return;
+
     try {
-      await FirebaseAuth.instance.currentUser!
-          .updatePassword(passwordController.text);
+      // إعادة التوثيق
+      final cred = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPasswordController.text.trim(),
+      );
+      await user.reauthenticateWithCredential(cred);
+
+      // تحديث الباسورد
+      await user.updatePassword(newPasswordController.text.trim());
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            "Password changed successfully!",
-            style: TextStyle(fontSize: 18.0),
-          ),
+          content: Text("Password changed successfully!"),
           backgroundColor: Colors.green,
         ),
       );
-      passwordController.clear();
+
+      currentPasswordController.clear();
+      newPasswordController.clear();
     } catch (e) {
+      print("Error: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(
-            "Failed to change password!",
-            style: TextStyle(fontSize: 18.0),
-          ),
+          content: Text("Failed to change password!"),
           backgroundColor: Colors.red,
         ),
       );
@@ -45,6 +57,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     return Scaffold(
       body: Stack(
         children: [
+          // الخلفية البرتقالية
           Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height / 2.5,
@@ -57,6 +70,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
             ),
           ),
 
+          // الحاوية البيضاء السفلية
           Positioned(
             top: MediaQuery.of(context).size.height / 3,
             left: 0,
@@ -73,6 +87,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
             ),
           ),
 
+          // المحتوى الرئيسي
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 60.0),
             child: Column(
@@ -105,18 +120,49 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                       child: Column(
                         children: [
                           Text(
-                            "Enter new password",
+                            "Enter current password",
                             style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 22.0,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 30.0),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            controller: currentPasswordController,
+                            obscureText: !_isCurrentPasswordVisible,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter your current password';
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Current Password',
+                              prefixIcon: Icon(Icons.lock),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _isCurrentPasswordVisible
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _isCurrentPasswordVisible =
+                                        !_isCurrentPasswordVisible;
+                                  });
+                                },
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 30),
 
                           TextFormField(
-                            controller: passwordController,
-                            obscureText: !_isPasswordVisible,
+                            controller: newPasswordController,
+                            obscureText: !_isNewPasswordVisible,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter a new password';
@@ -128,14 +174,15 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                               prefixIcon: Icon(Icons.lock_outline),
                               suffixIcon: IconButton(
                                 icon: Icon(
-                                  _isPasswordVisible
+                                  _isNewPasswordVisible
                                       ? Icons.visibility
                                       : Icons.visibility_off,
                                   color: Colors.grey,
                                 ),
                                 onPressed: () {
                                   setState(() {
-                                    _isPasswordVisible = !_isPasswordVisible;
+                                    _isNewPasswordVisible =
+                                        !_isNewPasswordVisible;
                                   });
                                 },
                               ),
@@ -144,6 +191,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                               ),
                             ),
                           ),
+
                           SizedBox(height: 30.0),
 
                           ElevatedButton(

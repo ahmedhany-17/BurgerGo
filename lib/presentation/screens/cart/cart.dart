@@ -98,6 +98,7 @@ class _CartPageState extends State<CartPage> {
                   ),
                 ),
 
+                // Dropdown لاختيار العنوان
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 16),
@@ -120,16 +121,20 @@ class _CartPageState extends State<CartPage> {
                         });
                       },
                       items: addresses.map((address) {
+                        String label = address['label'] ?? 'No Label';
+                        String street = address['street'] ?? '';
+                        String building = address['building'] ?? '';
+
                         return DropdownMenuItem(
                           value: address,
-                          child: Text(
-                              '${address['label'] ?? 'Unnamed'} - ${address['street'] ?? ''}'),
+                          child: Text('$label - $street $building'),
                         );
                       }).toList(),
                     ),
                   ),
                 ),
 
+                // تفاصيل العنوان المختار
                 if (selectedAddress != null)
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -146,12 +151,13 @@ class _CartPageState extends State<CartPage> {
                         Text(
                             "${selectedAddress!['street'] ?? ''}, ${selectedAddress!['building'] ?? ''}"),
                         Text(
-                            "Floor: ${selectedAddress!['floor'] ?? ''}, Apt: ${selectedAddress!['aptNo'] ?? ''}"),
-                        Text("Phone: ${selectedAddress!['phone'] ?? ''}"),
+                            "Floor: ${selectedAddress!['floor'] ?? '-'}, Apt: ${selectedAddress!['aptNo'] ?? '-'}"),
+                        Text("Phone: ${selectedAddress!['phone'] ?? '-'}"),
                       ],
                     ),
                   ),
 
+                // السعر و زر الشراء
                 Padding(
                   padding: EdgeInsets.all(15),
                   child: Column(
