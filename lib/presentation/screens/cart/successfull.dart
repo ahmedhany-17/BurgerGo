@@ -2,6 +2,8 @@ import 'package:burgergo/presentation/widgets/bottomnav/bottomnav.dart';
 import 'package:flutter/material.dart';
 
 class SuccessfulPage extends StatelessWidget {
+  const SuccessfulPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

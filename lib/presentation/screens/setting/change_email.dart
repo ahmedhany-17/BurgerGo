@@ -18,7 +18,6 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
     try {
       final user = FirebaseAuth.instance.currentUser;
 
-      // تأكيد الهوية بالباسورد الحالي
       final cred = EmailAuthProvider.credential(
         email: user!.email!,
         password: currentPasswordController.text.trim(),
@@ -26,7 +25,6 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
 
       await user.reauthenticateWithCredential(cred);
 
-      // تحديث الإيميل
       await user.updateEmail(newEmailController.text.trim());
 
       ScaffoldMessenger.of(context).showSnackBar(

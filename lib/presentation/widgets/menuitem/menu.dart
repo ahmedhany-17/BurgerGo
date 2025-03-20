@@ -6,7 +6,7 @@ class MenuItem extends StatelessWidget {
   final String imageUrl;
   final VoidCallback onTap;
 
-  const MenuItem({
+  const MenuItem({super.key, 
     required this.title,
     required this.color,
     required this.imageUrl,
@@ -32,19 +32,16 @@ class MenuItem extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // الصورة
             ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-              child: FadeInImage.assetNetwork(
-                placeholder: 'assets/images/placeholder.jpg', // حط صورة Placeholder عندك
-                image: imageUrl,
+              child: Image.network(
+                imageUrl,
                 height: 140,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
 
-            // النص
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12),

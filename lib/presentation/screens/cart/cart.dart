@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../../providers/cart_provider.dart';
 
 class CartPage extends StatefulWidget {
+  const CartPage({super.key});
+
   @override
   State<CartPage> createState() => _CartPageState();
 }

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SavedAddress extends StatefulWidget {
+  const SavedAddress({super.key});
+
   @override
   _SavedAddressState createState() => _SavedAddressState();
 }
@@ -162,13 +164,13 @@ class _SavedAddressState extends State<SavedAddress> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: _addAddress,
-              child: Text('Save Address'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                 textStyle: TextStyle(fontSize: 16),
                 foregroundColor: Colors.white,
               ),
+              child: Text('Save Address'),
             ),
             SizedBox(height: 16),
             Expanded(

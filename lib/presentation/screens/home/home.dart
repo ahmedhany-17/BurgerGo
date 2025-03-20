@@ -1,4 +1,4 @@
-import 'package:burgergo/presentation/screens/home/welcomeheader.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:burgergo/presentation/widgets/menuitem/menu.dart';
 import 'package:burgergo/presentation/screens/menu/appetizers.dart';
 import 'package:burgergo/presentation/screens/menu/beef.dart';
@@ -20,40 +20,84 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF9F9F9),
+      backgroundColor: Colors.white70,
       body: SafeArea(
-        top:false,
-        child:
-            currentUser == null
-                ? Center(child: Text("User not logged in"))
-                : StreamBuilder<DocumentSnapshot>(
-                  stream:
-                      FirebaseFirestore.instance
-                          .collection('Users')
-                          .doc(currentUser!.uid)
-                          .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    }
+        top: false,
+        child: currentUser == null
+            ? Center(child: Text("User not logged in"))
+            : StreamBuilder<DocumentSnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('Users')
+                    .doc(currentUser!.uid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
 
-                    if (!snapshot.hasData || !snapshot.data!.exists) {
-                      return Center(child: Text("User data not found"));
-                    }
+                  if (!snapshot.hasData || !snapshot.data!.exists) {
+                    return Center(child: Text("User data not found"));
+                  }
 
-                    final userData =
-                        snapshot.data!.data() as Map<String, dynamic>;
-                    final userName = userData['Name'] ?? 'Guest';
+                  final userData =
+                      snapshot.data!.data() as Map<String, dynamic>;
+                  final userName = userData['Name'] ?? 'Guest';
 
-                    return SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          FancyWelcomeHeader(userName: userName),
-
-                          const SizedBox(height: 20),
-
-                          Padding(
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.redAccent, Colors.deepOrange],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                blurRadius: 8,
+                                offset: Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: AnimatedTextKit(
+                              animatedTexts: [
+                                TypewriterAnimatedText(
+                                  'Welcome, $userName!',
+                                  textStyle: TextStyle(
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    letterSpacing: 1.2,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black54,
+                                        blurRadius: 3,
+                                        offset: Offset(2, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  speed: Duration(milliseconds: 100),
+                                ),
+                              ],
+                              totalRepeatCount: 1,
+                              pause: Duration(milliseconds: 500),
+                              displayFullTextOnTap: true,
+                              stopPauseOnTap: true,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 25),
+                       Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(16),
@@ -100,10 +144,8 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                           ),
-
-                          const SizedBox(height: 25),
-
-                          Padding(
+                        const SizedBox(height: 25),
+                        Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: GridView.count(
                               crossAxisCount: 2,
